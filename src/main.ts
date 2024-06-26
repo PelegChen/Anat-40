@@ -5,6 +5,10 @@ import * as THREE from 'three'
 const scene = new THREE.Scene();
 
 // creat our sphere
+const sizes = {
+    width: window.innerWidth,
+    height: window.innerHeight
+};
 
 const geometry =
     new THREE.SphereGeometry(3, 64, 64);
@@ -17,7 +21,7 @@ const light = new THREE.PointLight(0xffffff, 20,40);
 scene.add(light);
 
 //Camera
-const camera = new THREE.PerspectiveCamera(45, 800 / 600);
+const camera = new THREE.PerspectiveCamera(45, sizes.width / sizes.height);
 camera.position.z = 10
 scene.add(camera);
 
@@ -26,6 +30,6 @@ const canvas  = document.querySelector('.webgl') as HTMLCanvasElement
 const renderer = new THREE.WebGLRenderer({
     canvas
 });
-renderer.setSize(800, 600);
+renderer.setSize(sizes.width, sizes.height);
 renderer.render(scene, camera);
 
