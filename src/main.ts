@@ -22,7 +22,10 @@ const sizes = {
 
 const light = new THREE.PointLight(0xffffff, 200, 40);
 light.position.set(0, 10, 10);
+
+const lights = new THREE.AmbientLight(0xffffff, 200);
 scene.add(light);
+scene.add(lights);
 
 //Camera
 const camera = new THREE.PerspectiveCamera(1 , sizes.width / sizes.height);
@@ -43,6 +46,7 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setPixelRatio(2)
 renderer.setSize(sizes.width, sizes.height);
 renderer.render(scene, camera);
+
 
 const loader = new GLTFLoader();
 loader.load('/Daisy.glb', (gltf: { scene: Object3D<Object3DEventMap> }) => {
