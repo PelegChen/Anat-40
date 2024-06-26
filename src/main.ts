@@ -13,3 +13,13 @@ scene.add(mesh);
 
 //Camera
 const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+camera.position.z(20)
+scene.add(camera);
+
+const canvas  = document.querySelector('.webgl') as HTMLCanvasElement
+const renderer = new THREE.WebGLRenderer({
+    canvas
+});
+
+renderer.render(scene, camera);
+
