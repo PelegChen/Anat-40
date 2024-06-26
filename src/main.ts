@@ -1,12 +1,13 @@
 // @ts-ignore
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader';
 import * as THREE from 'three';
-import {AmbientLight, Object3D, Object3DEventMap} from 'three';
+import { Object3D, Object3DEventMap} from 'three';
 // @ts-ignore
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls'
 
 const scene = new THREE.Scene();
 
+scene.background = new THREE.Color('#facbcb');
 // creat our sphere
 const sizes = {
     width: window.innerWidth,
@@ -14,15 +15,13 @@ const sizes = {
 };
 
 
-const light = new THREE.PointLight(0xffffff, 200, 40);
-light.position.set(0, 10, 10);
+const light = new THREE.AmbientLight(0xffffff, 2 );
 
-const lights = new THREE.PointLight(0xffffff, 1);
-const ambientLight = new AmbientLight(0xFFFFFF);
-ambientLight.intensity = 50;
+light.position.set(0, 2, 2);
+
+
 scene.add(light);
-scene.add(lights);
-scene.add(ambientLight);
+// scene.add(ambientLight);
 
 //Camera
 const camera = new THREE.PerspectiveCamera(2, sizes.width / sizes.height);
@@ -47,8 +46,10 @@ renderer.render(scene, camera);
 
 
 const loader = new GLTFLoader();
-loader.load('/Gingerbread House.glb', (gltf: { scene: Object3D<Object3DEventMap> }) => {
-    gltf.scene.position.y = -0.09;
+const file =  'Gingerbread House.glb'// '/Gingerbread House.glb'
+loader.load(file, (gltf: { scene: Object3D<Object3DEventMap> }) => {
+    console.log(gltf)
+   gltf.scene.position.y = -0.09;
     scene.add(gltf.scene);
 }, undefined, (error: any) => {
     console.error('An error happened', error);
