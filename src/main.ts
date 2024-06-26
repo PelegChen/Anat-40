@@ -1,59 +1,88 @@
-import './style.css'
+import * as THREE from 'three';
 
-import * as THREE from 'three'
-// @ts-ignore
-import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls'
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { RGBELoader } from 'three/addons/loaders/RGBELoader.js';
 
-const scene = new THREE.Scene();
+let camera: THREE.Camera, scene: THREE.Scene, renderer: THREE.WebGLRenderer;
 
-// creat our sphere
-const sizes = {
-    width: window.innerWidth,
-    height: window.innerHeight
-};
+init();
 
-const geometry = new THREE.SphereGeometry(3, 64, 64);
-const material = new THREE.MeshStandardMaterial({color: '#7dfb8e'});
-const mesh = new THREE.Mesh(geometry, material);
-scene.add(mesh);
+function init() {
 
-const light = new THREE.PointLight(0xffffff, 20, 40);
-light.position.set(0, 10, 10);
-scene.add(light);
+    const container = document.createElement( 'div' );
+    document.body.appendChild( container );
 
-//Camera
-const camera = new THREE.PerspectiveCamera(45, sizes.width / sizes.height);
-camera.position.z = 10
-scene.add(camera);
+    camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.25, 20 );
+    camera.position.set( - 1.8, 0.6, 2.7 );
 
+    scene = new THREE.Scene();
 
-const canvas = document.querySelector('.webgl') as HTMLCanvasElement
+    new RGBELoader()
+        .setPath( 'textures/equirectangular/' )
+        .load( 'royal_esplanade_1k.hdr', function ( texture ) {
 
-// Controls
-const controls = new OrbitControls(camera, canvas);
-controls.enableDamping = true;
+            texture.mapping = THREE.EquirectangularReflectionMapping;
 
-// Rederer
-const renderer = new THREE.WebGLRenderer({
-    canvas
-});
-renderer.setPixelRatio(2)
-renderer.setSize(sizes.width, sizes.height);
-renderer.render(scene, camera);
+            scene.background = texture;
+            scene.environment = texture;
 
+            render();
 
-window.addEventListener('resize', async () => {
-    sizes.width = window.innerWidth;
-    sizes.height = window.innerHeight;
-    camera.aspect = sizes.width / sizes.height;
-    camera.updateProjectionMatrix();
-    renderer.setSize(sizes.width, sizes.height);
-})
+            // model
 
-const loop = () => {
+            const loader = new GLTFLoader().setPath( 'src/models/' );
+            loader.load( 'Daisy.glb', async function ( gltf ) {
+
+                const model = gltf.scene;
+
+                // wait until the model can be added to the scene without blocking due to shader compilation
+
+                await renderer.compileAsync( model, camera, scene );
+
+                scene.add( model );
+
+                render();
+
+            } );
+
+        } );
+
+    renderer = new THREE.WebGLRenderer( { antialias: true } );
+    renderer.setPixelRatio( window.devicePixelRatio );
+    renderer.setSize( window.innerWidth, window.innerHeight );
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1;
+    container.appendChild( renderer.domElement );
+
+    const controls = new OrbitControls( camera, renderer.domElement );
+    controls.addEventListener( 'change', render ); // use if there is no animation loop
+    controls.minDistance = 2;
+    controls.maxDistance = 10;
+    controls.target.set( 0, 0, - 0.2 );
     controls.update();
-    renderer.render(scene, camera);
-    window.requestAnimationFrame(loop);
+
+    window.addEventListener( 'resize', onWindowResize );
 
 }
-loop();
+
+function onWindowResize() {
+
+    // @ts-ignore
+    camera.aspect = window.innerWidth / window.innerHeight;
+    // @ts-ignore
+    camera.updateProjectionMatrix();
+
+    renderer.setSize( window.innerWidth, window.innerHeight );
+
+    render();
+
+}
+
+//
+
+function render() {
+
+    renderer.render( scene, camera );
+
+}
