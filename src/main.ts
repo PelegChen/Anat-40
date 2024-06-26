@@ -1,6 +1,6 @@
 // @ts-ignore
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader';
-import {Object3D, Object3DEventMap } from 'three';
+import {  Object3D, Object3DEventMap} from 'three';
 
 
 import * as THREE from 'three'
@@ -45,8 +45,11 @@ renderer.setSize(sizes.width, sizes.height);
 renderer.render(scene, camera);
 
 const loader = new GLTFLoader();
-loader.load('/Daisy.glb', (gltf: { scene: Object3D<Object3DEventMap>; }) => {
-    scene.add(gltf.scene);
+loader.load('/Daisy.glb', (gltf: { scene: Object3D<Object3DEventMap> }) => {
+   console.log(gltf)
+    // const mesh =
+    //     new Mesh(gltf.scene, gltf.materials)
+        scene.add(gltf.scene);
 }, undefined, (error: any) => {
     console.error('An error happened', error);
 });
