@@ -7,7 +7,7 @@ import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls'
 
 const scene = new THREE.Scene();
 
-scene.background = new THREE.Color('#facbcb');
+  // scene.background = new THREE.Color('#facbcb');
 // creat our sphere
 const sizes = {
     width: window.innerWidth,
@@ -25,7 +25,7 @@ scene.add(light);
 
 //Camera
 const camera = new THREE.PerspectiveCamera(2, sizes.width / sizes.height);
-camera.position.z = 10
+camera.position.z = 30
 camera.position.y = 0
 scene.add(camera);
 
@@ -38,18 +38,23 @@ controls.enableDamping = true;
 
 // Rederer
 const renderer = new THREE.WebGLRenderer({
-    canvas
+    canvas,
+ alpha: true
 });
 renderer.setPixelRatio(2)
 renderer.setSize(sizes.width, sizes.height);
 renderer.render(scene, camera);
+// renderer.setClearColor(  0x000000, 0 ); // the default
 
 
 const loader = new GLTFLoader();
-const file =  'Gingerbread House.glb'// '/Gingerbread House.glb'
+const file =  'cake.glb'
+let imageObj: THREE.Object3D<THREE.Object3DEventMap>;
+// '/Gingerbread House.glb'
 loader.load(file, (gltf: { scene: Object3D<Object3DEventMap> }) => {
-    console.log(gltf)
-   gltf.scene.position.y = -0.09;
+    imageObj = gltf.scene;
+   // gltf.scene.position.y = -0.09;
+
     scene.add(gltf.scene);
 }, undefined, (error: any) => {
     console.error('An error happened', error);
@@ -65,6 +70,7 @@ window.addEventListener('resize', async () => {
 
 const loop = () => {
     controls.update();
+    imageObj?.rotateOnAxis(new THREE.Vector3(0, -0.1, 0), 0.001);
     renderer.render(scene, camera);
     window.requestAnimationFrame(loop);
 
