@@ -7,7 +7,7 @@ import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls'
 
 const scene = new THREE.Scene();
 
-  // scene.background = new THREE.Color('#facbcb');
+ // scene.background = new THREE.Color('#77eded');
 // creat our sphere
 const sizes = {
     width: window.innerWidth,
