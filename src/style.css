@@ -15,7 +15,21 @@
  body{
      background-color: #000;
  }
+.image {
+        position: fixed;
 
+        /*transform: translate(-50%, -50%);*/
+        z-index: -1;
+        width: 100vw;
+        height: 100vh;
+
+        background-size: cover;
+        background-position: center;
+        filter: blur(3px);
+    img {
+        height: 100%;
+    }
+}
  .main {
      position: fixed;
      top: 50%;
