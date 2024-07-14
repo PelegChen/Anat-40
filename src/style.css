@@ -17,6 +17,7 @@
  }
 .image {
         position: fixed;
+    top: 0;
 
         /*transform: translate(-50%, -50%);*/
         z-index: -1;
@@ -29,6 +30,15 @@
     img {
         height: 100%;
     }
+}
+.text-up {
+    font-family: Alef;
+    font-size: 2rem;
+    position: fixed;
+    top: 30px;
+    width: 100vw;
+    height: 70px;
+    background: blue;
 }
  .main {
      position: fixed;
