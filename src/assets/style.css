@@ -1,10 +1,22 @@
+@font-face {
+    font-family: Gan;
+    src: url('fonts/ganclm_bold-webfont.ttf');
+
+
+}
+
+
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+
+
 html {
+    font-family: Gan, sans-serif;
     padding: 0;
     margin: 0;
 }
