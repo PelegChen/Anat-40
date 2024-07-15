@@ -11,7 +11,7 @@ const scene = new THREE.Scene();
 // creat our sphere
 const sizes = {
     width: window.innerWidth,
-    height: window.innerHeight
+    height: window.innerHeight + 20
 };
 
 
@@ -25,7 +25,7 @@ scene.add(light);
 
 //Camera
 const camera = new THREE.PerspectiveCamera(2, sizes.width / sizes.height);
-camera.position.z = 33
+camera.position.z = 40
 camera.position.y = 0
 scene.add(camera);
 
@@ -53,7 +53,8 @@ let imageObj: THREE.Object3D<THREE.Object3DEventMap>;
 // '/Gingerbread House.glb'
 loader.load(file, (gltf: { scene: Object3D<Object3DEventMap> }) => {
     imageObj = gltf.scene;
-   // gltf.scene.position.y = -0.09;
+    // controlling the position of the object
+   gltf.scene.position.y = -0.12;
 
     scene.add(gltf.scene);
 }, undefined, (error: any) => {
