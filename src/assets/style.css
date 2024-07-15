@@ -1,8 +1,10 @@
+
 @font-face {
-    font-family: Gan;
-    src: url('fonts/ganclm_bold-webfont.ttf');
-
-
+    font-family: 'Gan';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('fonts/ganclm_bold-webfont.ttf') format('truetype');
 }
 
 
@@ -50,14 +52,20 @@ body {
     }
 }
 
+.text {
+    display:  flex;
+    flex-direction: row;
+    font-family: Gan, sans-serif;
+
+    justify-content: center;
+    font-size: 5rem;
+
+}
 .text-up {
-    font-family: Alef;
-    font-size: 2rem;
     position: fixed;
     top: 30px;
     width: 100vw;
     height: 70px;
-    background: blue;
 }
 
 .main {
